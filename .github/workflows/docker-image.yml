@@ -44,7 +44,9 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Destroy
-        run: terraform destroy
+      - name: plan and destroy
+        run: |
+         terraform plan -destroy
+         terraform destroy
 
       
