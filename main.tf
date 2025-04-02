@@ -172,7 +172,7 @@ resource "aws_cloudwatch_log_stream" "cb_log_stream" {
 }
 
 # Create an ECR repository
-resource "aws_ecr_repository" "my_app" {
+resource "aws_ecr_repository" "my_app2" {
   name                 = "my-app"
   image_tag_mutability = "MUTABLE"
   force_delete         = true
@@ -309,7 +309,7 @@ resource "aws_ecs_task_definition" "my_task" {
   container_definitions = jsonencode([{
     name  = "ECS_Container"
     #image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest"
-    image = "${aws_ecr_repository.my_app.repository_url}:latest"
+    image = "${aws_ecr_repository.my_app2.repository_url}:latest"
     portMappings = [{
       containerPort = 80
       hostPort      = 80
