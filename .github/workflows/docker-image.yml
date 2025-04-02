@@ -46,7 +46,8 @@ jobs:
 
       - name: plan and destroy
         run: |
-         terraform plan -destroy
-         terraform destroy
+         terraform state list
+
+         #terraform destroy
 
       
