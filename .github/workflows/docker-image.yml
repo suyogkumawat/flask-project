@@ -3,7 +3,7 @@ name: Deploy with Terraform and ECR
 on:
   push:
     branches:
-      - main  # Change as per your branch
+      - master  # Change as per your branch
 
 jobs:
   deploy:
