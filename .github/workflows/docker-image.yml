@@ -1,9 +1,9 @@
 name: Deploy with Terraform and ECR
 
-on:
-  push:
-    branches:
-      - master  # Change as per your branch
+#on:
+  #push:
+ #   branches:
+ #     - master  # Change as per your branch
 
 jobs:
   deploy:
