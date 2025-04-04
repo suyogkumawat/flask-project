@@ -172,25 +172,25 @@ resource "aws_cloudwatch_log_stream" "cb_log_stream" {
 }
 
 # Create an ECR repository
-resource "aws_ecr_repository" "my_app2" {
+resource "aws_ecr_repository" "my_app" {
   name                 = "my-app"
   image_tag_mutability = "MUTABLE"
   force_delete         = true
 }
 
-# Docker Build and Push to ECR
-#resource "null_resource" "docker_build_push" {
-#  depends_on = [aws_ecr_repository.my_app]
-#  provisioner "local-exec" {
-#    interpreter = ["bash", "-c"]
-#    command     = <<-EOT
-#      aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com
-#      docker build -t my-python-app .
-#      docker tag my-python-app:latest ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest
-#      docker push ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest
-#    EOT
-#  }
-#}
+#Docker Build and Push to ECR
+resource "null_resource" "docker_build_push" {
+  depends_on = [aws_ecr_repository.my_app]
+  provisioner "local-exec" {
+    interpreter = ["bash", "-c"]
+    command     = <<-EOT
+      aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com
+      docker build -t my-python-app-v1 .
+      docker tag my-python-app:latest ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest
+      docker push ${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest
+    EOT
+  }
+}
 
 # Define an IAM role for ECS task execution "ecr:GetDownloadUrlForLayer",
 resource "aws_iam_role" "custom-ecs-role" {
@@ -221,7 +221,8 @@ resource "aws_iam_role" "custom-ecs-role" {
             "ecr:InitiateLayerUpload",
             "ecr:UploadLayerPart",
             "ecr:CompleteLayerUpload",
-            "ecr:PutImage"
+            "ecr:PutImage",
+            "ecr:GetDownloadUrlForLayer"
           ],
           Resource = "*"
         }
@@ -294,7 +295,7 @@ resource "aws_ecs_service" "my_service" {
 # Define the ECS task definition
 resource "aws_ecs_task_definition" "my_task" {
   #depends_on = [null_resource.docker_build_push]
-  family     = "ECS_Task"
+  family = "ECS_Task"
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
@@ -308,8 +309,8 @@ resource "aws_ecs_task_definition" "my_task" {
 
   container_definitions = jsonencode([{
     name  = "ECS_Container"
-    #image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest"
-    image = "${aws_ecr_repository.my_app2.repository_url}:latest"
+    image = "${data.aws_caller_identity.current.account_id}.dkr.ecr.us-west-2.amazonaws.com/my-app:latest"
+    #image = "${aws_ecr_repository.my_app2.repository_url}:latest"
     portMappings = [{
       containerPort = 80
       hostPort      = 80

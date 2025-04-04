@@ -10,7 +10,7 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Your YouTube Showcase</title>
+        <title>DevOps Project Showcase</title>
         <style>
             header {
                 background-color: #ff0000; /* Customize with your channel's color */
@@ -71,7 +71,7 @@ def home():
             <!-- Popular YouTube Videos -->
             <div class="video-container">
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/trFW03zP7Uw?si=9cXiME0hC3dwH6mi" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://guideclouddevops.medium.com/" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="video">
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/lwyr6E5kaQA?si=UsV5cHJLdiDPPpqy" frameborder="0" allowfullscreen></iframe>
@@ -120,7 +120,7 @@ def home():
             </div>
         </div>
         <footer>
-            © 2024 DheerajTechInsight | All rights reserved
+            © 2024 GuideCloudDevOps | All rights reserved
         </footer>
     </body>
     </html>
