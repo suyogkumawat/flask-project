@@ -1,13 +1,23 @@
 name: Deploy with Terraform and ECR
 
-#on:
-  #push:
- #   branches:
- #     - master  # Change as per your branch
 on:
   workflow_dispatch:
+
 jobs:
-  deploy:
+  checkout:
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.get_sha.outputs.sha }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Get Commit SHA
+        id: get_sha
+        run: echo "sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+
+  build-and-push:
+    needs: checkout
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +29,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.SECRET_KEY }}
-          aws-region: us-west-2  # Change region as per your setup
+          aws-region: us-west-2
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -27,17 +37,32 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t my-app:latest .
-          docker tag my-app:latest ${{ steps.login-ecr.outputs.registry }}/my-app:latest
+          docker build -t my-app:${{ needs.checkout.outputs.sha }} .
+          docker tag my-app:${{ needs.checkout.outputs.sha }} ${{ steps.login-ecr.outputs.registry }}/my-app:${{ needs.checkout.outputs.sha }}
 
       - name: Push Docker Image to ECR
         run: |
-          docker push ${{ steps.login-ecr.outputs.registry }}/my-app:latest
+          docker push ${{ steps.login-ecr.outputs.registry }}/my-app:${{ needs.checkout.outputs.sha }}
+
+  terraform:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+          aws-region: us-west-2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.0  # Change if required
+          terraform_version: 1.6.0
 
       - name: Terraform Init
         run: terraform init
@@ -45,9 +70,45 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-
       - name: Terraform Plan
         run: terraform plan -out=tfplan
+
+      - name: Install GitHub CLI
+        run: |
+          sudo apt update
+          sudo apt install -y gh
+          gh auth login --with-token < <(echo "${{ secrets.GH_TOKEN }}")
+
+      - name: Wait for Manual Approval via Issue Comment
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          echo "Waiting for '/approve' comment on issue titled 'Terraform Apply Approval'..."
+
+          issue_number=$(gh issue list -R "$REPO" --search "Terraform Apply Approval in:title" --state open --json number -q '.[0].number')
+          
+          if [ -z "$issue_number" ]; then
+            echo "❌ Issue 'Terraform Apply Approval' not found. Please create one."
+            exit 1
+          fi
+
+          for i in {1..60}; do
+            echo "⏳ Polling for approval comment... ($i/60)"
+            comment=$(gh issue comment list -R "$REPO" "$issue_number" --limit 5 --json body -q '.[] | select(.body == "/approve")')
+            
+            if [ -n "$comment" ]; then
+              echo "✅ Approval received!"
+              break
+            fi
+
+            sleep 30
+          done
+
+          if [ -z "$comment" ]; then
+            echo "❌ Approval not received within timeout."
+            exit 1
+          fi
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
