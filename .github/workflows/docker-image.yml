@@ -4,7 +4,8 @@ name: Deploy with Terraform and ECR
   #push:
  #   branches:
  #     - master  # Change as per your branch
-
+on:
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -44,10 +45,9 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: plan and destroy
-        run: |
-         terraform state list
 
-         #terraform destroy
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
 
-      
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
