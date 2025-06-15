@@ -74,10 +74,10 @@ def home():
                     <iframe width="560" height="315" src="https://guideclouddevops.medium.com/" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/lwyr6E5kaQA?si=UsV5cHJLdiDPPpqy" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://guideclouddevops.medium.com/" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/hnfeyKNJ4pM?si=qyZNMHxI5-wJYmVa" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://guideclouddevops.medium.com/" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
 
@@ -87,13 +87,13 @@ def home():
             <br>
             <div class="playlist-container">
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=YLd39R6zYB6a7VuV&amp;list=PLz8JBMMd7yjWMJ0YeOkfnTohirAZT_pBU" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://guideclouddevops.medium.com/yaml-and-industry-based-scenarios-67e63249b245" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=pmR7Ep3IH_M1UkO7&amp;list=PLz8JBMMd7yjUukUG1M78ypP9GjWaP8rqf" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://guideclouddevops.medium.com/ultimate-guide-crack-the-aws-certified-solutions-architect-associate-exam-in-2025-78fb1a4bf19b" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?si=m707kduCb5UYnUmV&amp;list=PLz8JBMMd7yjWA5qpXSVAcbi-_u9n6d7uw" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="560" height="315" src="https://guideclouddevops.medium.com/yaml-and-industry-based-scenarios-67e63249b245" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
 
@@ -103,19 +103,19 @@ def home():
             <br>
             <div class="shorts-container">
                 <div class="short">
-                    <iframe width="315" height="560" src="https://youtube.com/embed/73toBt5R4zE?si=4iMebKKwOPyoUcYR" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="315" height="560" src="https://guideclouddevops.medium.com/" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="short">
-                    <iframe width="315" height="560" src="https://youtube.com/embed/L75o4sa7iXQ?si=tJv6_90r3CINw6uW" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="315" height="560" src="https://guideclouddevops.medium.com/" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="short">
-                    <iframe width="315" height="560" src="https://youtube.com/embed/LKysazmlDxk?si=MYycCA2N1tNzNoUH" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="315" height="560" src="https://guideclouddevops.medium.com/eks-auto-mode-new-feature-aws-0603a8c78797" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="short">
-                    <iframe width="315" height="560" src="https://youtube.com/embed/4OfEN3XGcic?si=10IE-7djtqcZuHnn" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="315" height="560" src="https://guideclouddevops.medium.com/eks-auto-mode-new-feature-aws-0603a8c78797" frameborder="0" allowfullscreen></iframe>
                 </div>
                 <div class="short">
-                    <iframe width="315" height="560" src="https://youtube.com/embed/AgGPGujpJCo?si=TVZ5CmamRWv5NPXa" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="315" height="560" src="https://guideclouddevops.medium.com/eks-auto-mode-new-feature-aws-0603a8c78797" frameborder="0" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
